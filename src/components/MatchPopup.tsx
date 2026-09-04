@@ -1,4 +1,5 @@
-import { Heart, X, MessageCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, X, Send } from 'lucide-react';
 import type { Profile } from '@/types';
 
 interface MatchPopupProps {
@@ -8,6 +9,13 @@ interface MatchPopupProps {
 }
 
 export default function MatchPopup({ profile, onClose, onSendMessage }: MatchPopupProps) {
+  const [message, setMessage] = useState('');
+
+  const handleSend = () => {
+    alert('送信しました');
+    onSendMessage();
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
       {/* Backdrop */}
@@ -54,15 +62,24 @@ export default function MatchPopup({ profile, onClose, onSendMessage }: MatchPop
         </p>
         <p className="text-sm text-white/50 mb-8">お互いに「いいね」しました！メッセージを送りましょう。</p>
 
-        {/* Buttons */}
+        {/* Message input */}
         <div className="w-full flex flex-col gap-3">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="メッセージを入力"
+            className="w-full px-5 py-3.5 rounded-full bg-white/10 border border-white/15 text-white placeholder-white/40 outline-none transition-all focus:bg-white/15 focus:border-rose-400/60 focus:ring-2 focus:ring-rose-400/30"
+          />
+
           <button
-            onClick={onSendMessage}
+            onClick={handleSend}
             className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 to-fuchsia-500 hover:from-rose-400 hover:to-fuchsia-400 text-white font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-rose-500/30"
           >
-            <MessageCircle size={20} />
-            メッセージを送る
+            <Send size={18} />
+            送信する
           </button>
+
           <button
             onClick={onClose}
             className="w-full py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white font-medium flex items-center justify-center gap-2 transition-all active:scale-95"
